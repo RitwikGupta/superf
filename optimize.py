@@ -1086,6 +1086,7 @@ def main():
     # Essential parameters only
     parser.add_argument("--dataset", type=str, default="satburst_synth", 
                        choices=["satburst_synth", "worldstrat", "burst_synth", "worldstrat_test", "worldstrat_sweet", "worldstrat_bitter"])
+    parser.add_argument("--root_satburst_synth", type=str)
     parser.add_argument("--sample_id", default="Landcover-743192_rgb")
     parser.add_argument("--df", type=int, default=4, help="Downsampling factor, or upsampling factor for the data")
     parser.add_argument("--scale_factor", type=float, default=4, help="scale factor for the input training grid")
@@ -1151,7 +1152,9 @@ def main():
 
     # Setup dataset
     if args.dataset == "satburst_synth":
-        args.root_satburst_synth = f"data/{args.sample_id}/scale_{args.df}_shift_{args.lr_shift:.1f}px_aug_{args.aug}"
+        assert args.root_satburst_synth is not None or args.root_satburst_synth != ""
+        # args.root_satburst_synth = f"data/{args.sample_id}/scale_{args.df}_shift_{args.lr_shift:.1f}px_aug_{args.aug}"
+        args.root_satburst_synth = f"{args.root_satburst_synth}/scale_{args.df}_shift_{args.lr_shift:.1f}px_aug_{args.aug}"
     elif args.dataset == "burst_synth":
         args.root_burst_synth = "SyntheticBurstVal"
         # Convert sample_id to integer for burst_synth dataset
